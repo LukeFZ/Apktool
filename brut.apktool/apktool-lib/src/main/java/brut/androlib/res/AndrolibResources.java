@@ -610,8 +610,11 @@ final public class AndrolibResources {
         List<String> cmd = new ArrayList<>();
 
         try {
-            String aaptCommand = AaptManager.getAaptExecutionCommand(aaptPath, getAaptBinaryFile());
-            cmd.add(aaptCommand);
+            if (customAapt) {
+                cmd.add(AaptManager.getAaptExecutionCommand(aaptPath, null));
+            } else {
+                cmd.add(AaptManager.getAaptExecutionCommand(aaptPath, getAaptBinaryFile()));
+            }
         } catch (BrutException ex) {
             LOGGER.warning("aapt: " + ex.getMessage() + " (defaulting to $PATH binary)");
             cmd.add(AaptManager.getAaptBinaryName(getAaptVersion()));
